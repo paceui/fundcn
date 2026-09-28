@@ -1,0 +1,98 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "fundcn",
+  "homepage": "https://fundcn.com",
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "showcase-cards",
+      "type": "registry:block",
+      "title": "Showcase Cards",
+      "description": "Sponsor list where each tier is a bordered section of mark tiles.",
+      "files": [
+        {
+          "path": "src/components/sponsor/showcase/cards.tsx",
+          "type": "registry:component",
+          "target": "@components/sponsor/showcase/cards.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "showcase-wall",
+      "type": "registry:block",
+      "title": "Showcase Wall",
+      "description": "Sponsor list with a hairline between tiers and an outline card for each sponsor.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "card"
+      ],
+      "files": [
+        {
+          "path": "src/components/sponsor/showcase/wall.tsx",
+          "type": "registry:component",
+          "target": "@components/sponsor/showcase/wall.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "showcase-stage",
+      "type": "registry:block",
+      "title": "Showcase Stage",
+      "description": "Sponsor list with a tier badge and a panel card for each sponsor.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "path": "src/components/sponsor/showcase/stage.tsx",
+          "type": "registry:component",
+          "target": "@components/sponsor/showcase/stage.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pricing-cards",
+      "type": "registry:block",
+      "title": "Pricing Cards",
+      "description": "One price card for each sponsor tier.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/components/sponsor/pricing/cards.tsx",
+          "type": "registry:component",
+          "target": "@components/sponsor/pricing/cards.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pricing-compare",
+      "type": "registry:block",
+      "title": "Pricing Compare",
+      "description": "A comparison table of sponsor tier prices and features.",
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "src/components/sponsor/pricing/compare.tsx",
+          "type": "registry:component",
+          "target": "@components/sponsor/pricing/compare.tsx"
+        }
+      ]
+    }
+  ]
+}

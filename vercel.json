@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/r/:name([^.]+)",
+      "destination": "/r/:name.json",
+      "permanent": false
+    }
+  ]
+}
