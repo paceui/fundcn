@@ -1,9 +1,12 @@
 import { useEffect, useState, lazy, Suspense } from "react"
 import { ChevronDownIcon } from "lucide-react"
+import { MorphIcon } from "morphicons/react"
+import { Moon, Sun } from "lucide"
 
 import { cn } from "@/lib/utils"
 import { useTheme } from "@/hooks/theme-context"
 import { PresetSwatch } from "@/components/builder/preset-swatch"
+import { Button } from "@/components/ui/button"
 
 const ThemeGenerator = lazy(() =>
   import("@/components/builder/theme-generator").then((m) => ({
@@ -16,8 +19,10 @@ function ThemeGeneratorSkeleton() {
   const fallbackTheme = resolvedTheme ?? "light"
 
   return (
-    <button
-      className="flex h-8 w-fit items-center justify-between gap-1.5 rounded-md border border-input bg-transparent py-2 pr-2 pl-2.5 text-sm shadow-none outline-none ring-inset disabled:cursor-not-allowed disabled:opacity-50"
+    <Button
+      variant="outline"
+      size="sm"
+      className="w-36 justify-between pr-2 pl-2.5 shadow-none"
       disabled
     >
       <span className="flex items-center gap-2">
@@ -25,12 +30,13 @@ function ThemeGeneratorSkeleton() {
         {selectedPreset.title}
       </span>
       <ChevronDownIcon className="size-4 text-muted-foreground opacity-50" />
-    </button>
+    </Button>
   )
 }
 
 export function BuilderTopbar() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,8 +70,19 @@ export function BuilderTopbar() {
           <Suspense fallback={<ThemeGeneratorSkeleton />}>
             <ThemeGenerator />
           </Suspense>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            aria-label="Toggle theme"
+          >
+            <MorphIcon 
+              icon={resolvedTheme === "dark" ? Sun : Moon} 
+              size={16}
+            />
+          </Button>
           <a
-            href="https://x.com/paceui_"
+            href="https://x.com/withden_"
             target="_blank"
             rel="noreferrer"
             className="flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"

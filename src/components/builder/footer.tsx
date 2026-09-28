@@ -1,7 +1,7 @@
 const SOCIALS = [
   {
     label: "Fundcn on X",
-    href: "https://x.com/paceui_",
+    href: "https://x.com/withden_",
     logo: "https://cdn.paceui.com/brand-logos/x.svg",
   },
   {

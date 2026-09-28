@@ -78,13 +78,13 @@ export function PricingCompare() {
             role="table"
             aria-label="Pricing"
             className="w-full text-sm"
-            style={{ minWidth: `${11 + cards.length * 12}rem` }}
+            style={{ minWidth: `${13 + cards.length * 12}rem` }}
           >
             <div role="row" className="flex">
               <div
                 role="columnheader"
                 className={cn(
-                  "sticky left-0 z-10 w-44 shrink-0 border-r border-border bg-background",
+                  "sticky left-0 z-10 w-52 shrink-0 border-r border-border bg-background",
                   rows.length > 0 && "border-b"
                 )}
               />
@@ -130,7 +130,7 @@ export function PricingCompare() {
                 <div
                   role="rowheader"
                   className={cn(
-                    "sticky left-0 z-10 flex w-44 shrink-0 flex-col justify-center border-r border-border bg-background p-4 text-left font-normal",
+                    "sticky left-0 z-10 flex w-52 shrink-0 flex-col justify-center border-r border-border bg-background p-4 text-left font-normal whitespace-nowrap text-xs sm:text-sm",
                     rowIndex < rows.length - 1 && "border-b"
                   )}
                 >

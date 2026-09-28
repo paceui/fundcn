@@ -2,12 +2,12 @@ import type { AnyRouteMatch } from "@tanstack/react-router"
 
 const SITE_URL = "https://fundcn.paceui.com"
 const SITE_NAME = "Fundcn"
-const SITE_TITLE = "Funding & Sponsorship Components for React - Fundcn"
-const SITE_DESCRIPTION =
-  "Beautiful, copy-paste funding and sponsorship components for your React apps, built on shadcn/ui"
+export const SITE_TITLE = "Funding and Sponsorship Page & Components for React | Fundcn"
+export const SITE_DESCRIPTION =
+  "Beautiful, copy-paste funding, sponsorship pages & components for your React apps, built on shadcn/ui"
 const OG_IMAGE = `${SITE_URL}/images/og-image.jpg`
 const OG_IMAGE_ALT =
-  "Fundcn – copy-paste funding and sponsorship components for React apps"
+  "Funding and Sponsorship Page & Components for React - Fundcn"
 
 export const JSON_LD = {
   "@context": "https://schema.org",
@@ -30,7 +30,7 @@ export const JSON_LD = {
         "@type": "ImageObject",
         url: `${SITE_URL}/logo/logo.jpg`,
       },
-      sameAs: ["https://x.com/paceui_", "https://github.com/paceui/fundcn"],
+      sameAs: ["https://x.com/withden_", "https://github.com/paceui/fundcn"],
     },
     {
       "@type": "SoftwareSourceCode",
@@ -85,7 +85,7 @@ export const seoMeta: NonNullable<AnyRouteMatch["meta"]> = [
   { property: "og:image:height", content: "675" },
   { property: "og:image:alt", content: OG_IMAGE_ALT },
   { name: "twitter:card", content: "summary_large_image" },
-  { name: "twitter:site", content: "@paceui_" },
+  { name: "twitter:site", content: "@withden_" },
   { name: "twitter:title", content: SITE_TITLE },
   { name: "twitter:description", content: SITE_DESCRIPTION },
   { name: "twitter:image", content: OG_IMAGE },

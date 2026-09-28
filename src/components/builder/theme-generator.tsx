@@ -27,7 +27,7 @@ export function ThemeGenerator({ className }: { className?: string }) {
       <SelectTrigger
         aria-label="Theme preset"
         size="sm"
-        className={cn("w-fit shadow-none ring-inset", className)}
+        className={cn("w-36 shadow-none ring-inset", className)}
       >
         <SelectValue>
           <span className="flex items-center gap-2">

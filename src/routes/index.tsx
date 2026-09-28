@@ -14,6 +14,7 @@ import {
 import { BuilderFooter } from "@/components/builder/footer"
 import { BuilderTopbar } from "@/components/builder/topbar"
 import { PreviewToolbar } from "@/components/builder/toolbar"
+import { SITE_TITLE, SITE_DESCRIPTION } from "@/lib/seo"
 
 type BuilderChoice = {
   sponsorId: SponsorId
@@ -70,6 +71,8 @@ function App() {
     <div className="min-h-svh bg-background">
       <BuilderTopbar />
       <main className="pb-28">
+        <h1 className="sr-only">{SITE_TITLE}</h1>
+        <h2 className="sr-only">{SITE_DESCRIPTION}</h2>
         <Sponsor tiers={hasData ? demoSponsorTiers : emptySponsorTiers} />
         <div ref={pricingRef}>
           <Pricing />

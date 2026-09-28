@@ -14,3 +14,4 @@ todos.json
 # typescript
 *.tsbuildinfo
 .idea
+.vercel
