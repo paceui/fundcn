@@ -7,6 +7,11 @@ import { cn } from "@/lib/utils"
 import { useTheme } from "@/hooks/theme-context"
 import { PresetSwatch } from "@/components/builder/preset-swatch"
 import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const ThemeGenerator = lazy(() =>
   import("@/components/builder/theme-generator").then((m) => ({
@@ -46,6 +51,27 @@ export function BuilderTopbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.target instanceof HTMLElement &&
+        (event.target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(event.target.tagName))
+      ) {
+        return
+      }
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+
+      if (event.key === "d" || event.key === "D") {
+        event.preventDefault()
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [resolvedTheme, setTheme])
+
   return (
     <header
       className={cn(
@@ -70,16 +96,33 @@ export function BuilderTopbar() {
           <Suspense fallback={<ThemeGeneratorSkeleton />}>
             <ThemeGenerator />
           </Suspense>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={() =>
-              setTheme(resolvedTheme === "dark" ? "light" : "dark")
-            }
-            aria-label="Toggle theme"
-          >
-            <MorphIcon icon={resolvedTheme === "dark" ? Sun : Moon} size={16} />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon-sm"
+                  onClick={() =>
+                    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                  }
+                  aria-label="Toggle theme (D)"
+                >
+                  <MorphIcon
+                    icon={resolvedTheme === "dark" ? Sun : Moon}
+                    size={16}
+                  />
+                </Button>
+              }
+            />
+            <TooltipContent side="bottom" sideOffset={6}>
+              <span className="flex items-center gap-1.5">
+                <span>Toggle theme</span>
+                <kbd className="rounded border border-background/25 bg-background/15 px-1 py-0.5 font-mono text-[10px] leading-none font-semibold">
+                  D
+                </kbd>
+              </span>
+            </TooltipContent>
+          </Tooltip>
           <a
             href="https://x.com/withden_"
             target="_blank"

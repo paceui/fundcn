@@ -11,6 +11,10 @@ import { useTheme as useNextTheme } from "next-themes"
 
 import { presets } from "@/hooks/presets"
 import { applyStylesToDocument } from "@/lib/helpers/styles"
+import {
+  performThemeTransition,
+  type ThemeTransitionEffect,
+} from "@/lib/helpers/theme-transition"
 
 type CSSVariables = Record<string, string>
 type PresetName = (typeof presets)[number]["name"]
@@ -60,9 +64,25 @@ const createShadowVariants = (baseValues: CSSVariables): CSSVariables => {
 }
 
 const useHook = () => {
-  const { setTheme, theme, resolvedTheme } = useNextTheme()
+  const { setTheme: nextSetTheme, theme, resolvedTheme } = useNextTheme()
   const [data, setData] = useState<ThemeManagerData>(defaultData)
   const [styles, setStyles] = useState<CSSVariables | null>(null)
+
+  const setTheme = (
+    newTheme: string,
+    effect?: ThemeTransitionEffect,
+    originX?: number,
+    originY?: number
+  ) => {
+    performThemeTransition(
+      () => {
+        nextSetTheme(newTheme)
+      },
+      effect,
+      originX,
+      originY
+    )
+  }
 
   const updateData = (
     updater:
