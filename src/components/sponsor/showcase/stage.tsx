@@ -1,4 +1,5 @@
 import { ArrowRightIcon, PlusIcon } from "lucide-react"
+import { motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
@@ -17,6 +18,8 @@ export type Tier = {
 type SponsorsProps = {
   tiers?: Tier[]
 }
+
+const strongEase = [0.23, 1, 0.32, 1] as const
 
 function tierGrid(count: number) {
   if (count <= 1) return "grid grid-cols-1 gap-4"
@@ -58,12 +61,13 @@ function Panel({
       href={sponsor.url || purchaseUrl}
       target="_blank"
       rel="noreferrer"
+      aria-label={sponsor.name || "Sponsor"}
       className="group block h-full rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span className="flex h-full flex-col overflow-hidden rounded-2xl border bg-card">
         <span
           className={cn(
-            "flex flex-1 items-center justify-center bg-muted/40 transition-colors group-hover:bg-muted/70",
+            "flex flex-1 items-center justify-center bg-muted/40 transition-colors duration-200 group-hover:bg-muted/70",
             large ? "p-5" : "p-4"
           )}
         >
@@ -89,7 +93,7 @@ function Panel({
           )}
         >
           <span className="truncate">{linkLabel(sponsor) || "Sponsor"}</span>
-          <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
+          <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 ease-out group-hover:translate-x-0.5 group-hover:opacity-100" />
         </span>
       </span>
     </a>
@@ -97,24 +101,103 @@ function Panel({
 }
 
 function EmptySlots() {
+  const shouldReduceMotion = useReducedMotion()
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.06,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion ? "scale(1)" : "scale(0.96)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "scale(1)",
+      transition: { duration: 0.35, ease: strongEase },
+    },
+  }
+
   return (
-    <ul className={tierGrid(4)}>
+    <motion.ul
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className={tierGrid(4)}
+    >
       {Array.from({ length: 4 }).map((_, index) => (
-        <li key={index} className="min-w-0">
+        <motion.li key={index} variants={itemVariants} className="min-w-0">
           <div className="flex min-h-36 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed p-4 text-muted-foreground">
             <PlusIcon className="size-5" aria-hidden />
             <span className="sr-only">Empty sponsor slot</span>
           </div>
-        </li>
+        </motion.li>
       ))}
-    </ul>
+    </motion.ul>
   )
 }
 
 export function ShowcaseStage({ tiers = [] }: SponsorsProps) {
+  const shouldReduceMotion = useReducedMotion()
+
+  const headerVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion ? "translateY(0px)" : "translateY(14px)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px)",
+      transition: {
+        duration: 0.45,
+        ease: strongEase,
+      },
+    },
+  }
+
+  const sectionVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.08,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion
+        ? "translateY(0px) scale(1)"
+        : "translateY(16px) scale(0.96)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px) scale(1)",
+      transition: {
+        duration: 0.4,
+        ease: strongEase,
+      },
+    },
+  }
+
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col px-6 py-16">
-      <header className="mb-12 text-center">
+      <motion.header
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={headerVariants}
+        className="mb-12 text-center"
+      >
         <h1 className="text-3xl font-medium tracking-tight sm:text-4xl">
           Sponsors
         </h1>
@@ -122,13 +205,19 @@ export function ShowcaseStage({ tiers = [] }: SponsorsProps) {
           Support open-source maintenance with a monthly sponsorship. Your logo
           and link will appear here.
         </p>
-      </header>
+      </motion.header>
       {tiers.length === 0 ? (
         <EmptySlots />
       ) : (
         <div className="flex flex-col gap-10">
           {tiers.map((tier, index) => (
-            <section key={tier.title}>
+            <motion.section
+              key={tier.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              variants={sectionVariants}
+            >
               <h2
                 className={cn(
                   "mb-4 inline-flex rounded-full border px-2.5 py-1 text-xs font-medium",
@@ -139,10 +228,14 @@ export function ShowcaseStage({ tiers = [] }: SponsorsProps) {
               >
                 {tier.title}
               </h2>
-              <ul className={tierGrid(tier.sponsors.length)}>
+              <motion.ul
+                variants={sectionVariants}
+                className={tierGrid(tier.sponsors.length)}
+              >
                 {tier.sponsors.map((sponsor, sponsorIndex) => (
-                  <li
+                  <motion.li
                     key={sponsor.url || `${tier.title}-${sponsorIndex}`}
+                    variants={itemVariants}
                     className="min-w-0"
                   >
                     <Panel
@@ -150,10 +243,10 @@ export function ShowcaseStage({ tiers = [] }: SponsorsProps) {
                       large={tier.title === "Platinum"}
                       purchaseUrl={tier.purchaseUrl}
                     />
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
-            </section>
+              </motion.ul>
+            </motion.section>
           ))}
         </div>
       )}

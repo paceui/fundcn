@@ -1,8 +1,11 @@
 import { CheckIcon } from "lucide-react"
+import { motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
 import { buttonVariants } from "@/components/ui/button"
+
+const strongEase = [0.23, 1, 0.32, 1] as const
 
 const cards = [
   {
@@ -49,10 +52,61 @@ function formatPrice(amount: number) {
 }
 
 export function PricingCards() {
+  const shouldReduceMotion = useReducedMotion()
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.08,
+        delayChildren: shouldReduceMotion ? 0 : 0.06,
+      },
+    },
+  }
+
+  const headerVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion ? "translateY(0px)" : "translateY(14px)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px)",
+      transition: {
+        duration: 0.45,
+        ease: strongEase,
+      },
+    },
+  }
+
+  const cardVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion
+        ? "translateY(0px) scale(1)"
+        : "translateY(16px) scale(0.96)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px) scale(1)",
+      transition: {
+        duration: 0.4,
+        ease: strongEase,
+      },
+    },
+  }
+
   return (
     <section>
-      <div className="mx-auto flex w-full max-w-6xl flex-col px-6 py-16">
-        <header className="mb-10 text-center">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={containerVariants}
+        className="mx-auto flex w-full max-w-6xl flex-col px-6 py-16"
+      >
+        <motion.header variants={headerVariants} className="mb-10 text-center">
           <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
             Pricing
           </h2>
@@ -60,10 +114,17 @@ export function PricingCards() {
             Choose a monthly sponsorship tier that fits your budget. Each tier
             lists exactly what you get.
           </p>
-        </header>
-        <ul className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        </motion.header>
+        <motion.ul
+          variants={containerVariants}
+          className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {cards.map((card) => (
-            <li key={card.title} className="min-w-0">
+            <motion.li
+              key={card.title}
+              variants={cardVariants}
+              className="min-w-0"
+            >
               <article className="flex h-full flex-col rounded-2xl border border-border bg-card p-5">
                 <h3 className="text-xs font-medium tracking-[0.16em] text-muted-foreground uppercase">
                   {card.title}
@@ -97,10 +158,10 @@ export function PricingCards() {
                   </a>
                 </div>
               </article>
-            </li>
+            </motion.li>
           ))}
-        </ul>
-      </div>
+        </motion.ul>
+      </motion.div>
     </section>
   )
 }

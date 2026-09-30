@@ -99,7 +99,6 @@ function blankSponsors(count: number): DemoSponsor[] {
   return Array.from({ length: count }, () => ({
     name: "",
     url: "",
-    description: "Every sponsor also take place in our heart",
   }))
 }
 

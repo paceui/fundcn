@@ -9,6 +9,10 @@
       "type": "registry:block",
       "title": "Showcase Cards",
       "description": "Sponsor list where each tier is a bordered section of mark tiles.",
+      "dependencies": [
+        "lucide-react",
+        "motion"
+      ],
       "files": [
         {
           "path": "src/components/sponsor/showcase/cards.tsx",
@@ -24,7 +28,8 @@
       "title": "Showcase Wall",
       "description": "Sponsor list with a hairline between tiers and an outline card for each sponsor.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "registryDependencies": [
         "card"
@@ -44,7 +49,8 @@
       "title": "Showcase Stage",
       "description": "Sponsor list with a tier badge and a panel card for each sponsor.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "files": [
         {
@@ -61,7 +67,8 @@
       "title": "Pricing Cards",
       "description": "One price card for each sponsor tier.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "registryDependencies": [
         "button"
@@ -81,7 +88,8 @@
       "title": "Pricing Compare",
       "description": "A comparison table of sponsor tier prices and features.",
       "dependencies": [
-        "lucide-react"
+        "lucide-react",
+        "motion"
       ],
       "registryDependencies": [
         "button"

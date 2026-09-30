@@ -73,13 +73,12 @@ export function BuilderTopbar() {
           <Button
             variant="outline"
             size="icon-sm"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
             aria-label="Toggle theme"
           >
-            <MorphIcon 
-              icon={resolvedTheme === "dark" ? Sun : Moon} 
-              size={16}
-            />
+            <MorphIcon icon={resolvedTheme === "dark" ? Sun : Moon} size={16} />
           </Button>
           <a
             href="https://x.com/withden_"

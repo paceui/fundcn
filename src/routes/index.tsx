@@ -73,7 +73,10 @@ function App() {
       <main className="pb-28">
         <h1 className="sr-only">{SITE_TITLE}</h1>
         <h2 className="sr-only">{SITE_DESCRIPTION}</h2>
-        <Sponsor tiers={hasData ? demoSponsorTiers : emptySponsorTiers} />
+        <Sponsor
+          key={`${sponsor.id}-${hasData}`}
+          tiers={hasData ? demoSponsorTiers : emptySponsorTiers}
+        />
         <div ref={pricingRef}>
           <Pricing />
         </div>

@@ -2,7 +2,8 @@ import type { AnyRouteMatch } from "@tanstack/react-router"
 
 const SITE_URL = "https://fundcn.paceui.com"
 const SITE_NAME = "Fundcn"
-export const SITE_TITLE = "Funding and Sponsorship Page & Components for React | Fundcn"
+export const SITE_TITLE =
+  "Funding and Sponsorship Page & Components for React | Fundcn"
 export const SITE_DESCRIPTION =
   "Beautiful, copy-paste funding, sponsorship pages & components for your React apps, built on shadcn/ui"
 const OG_IMAGE = `${SITE_URL}/images/og-image.jpg`

@@ -12,7 +12,6 @@ import { useTheme as useNextTheme } from "next-themes"
 import { presets } from "@/hooks/presets"
 import { applyStylesToDocument } from "@/lib/helpers/styles"
 
-
 type CSSVariables = Record<string, string>
 type PresetName = (typeof presets)[number]["name"]
 

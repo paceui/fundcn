@@ -18,6 +18,7 @@ export const registry: RegistryItem[] = [
         type: "registry:component",
       },
     ],
+    dependencies: ["lucide-react", "motion"],
   },
   {
     name: "showcase-wall",
@@ -31,7 +32,7 @@ export const registry: RegistryItem[] = [
         type: "registry:component",
       },
     ],
-    dependencies: ["lucide-react"],
+    dependencies: ["lucide-react", "motion"],
     registryDependencies: ["card"],
   },
   {
@@ -46,7 +47,7 @@ export const registry: RegistryItem[] = [
         type: "registry:component",
       },
     ],
-    dependencies: ["lucide-react"],
+    dependencies: ["lucide-react", "motion"],
   },
   {
     name: "pricing-cards",
@@ -59,7 +60,7 @@ export const registry: RegistryItem[] = [
         type: "registry:component",
       },
     ],
-    dependencies: ["lucide-react"],
+    dependencies: ["lucide-react", "motion"],
     registryDependencies: ["button"],
   },
   {
@@ -73,7 +74,7 @@ export const registry: RegistryItem[] = [
         type: "registry:component",
       },
     ],
-    dependencies: ["lucide-react"],
+    dependencies: ["lucide-react", "motion"],
     registryDependencies: ["button"],
   },
 ]

@@ -15,3 +15,6 @@ todos.json
 *.tsbuildinfo
 .idea
 .vercel
+.agents
+.aider-desk
+.grok

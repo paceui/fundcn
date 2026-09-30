@@ -1,8 +1,11 @@
 import { CheckIcon } from "lucide-react"
+import { motion, useReducedMotion } from "motion/react"
 
 import { cn } from "@/lib/utils"
 
 import { buttonVariants } from "@/components/ui/button"
+
+const strongEase = [0.23, 1, 0.32, 1] as const
 
 const cards = [
   {
@@ -59,12 +62,50 @@ function featureRows() {
 }
 
 export function PricingCompare() {
+  const shouldReduceMotion = useReducedMotion()
   const rows = featureRows()
+
+  const headerVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion ? "translateY(0px)" : "translateY(14px)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px)",
+      transition: {
+        duration: 0.45,
+        ease: strongEase,
+      },
+    },
+  }
+
+  const tableVariants = {
+    hidden: {
+      opacity: 0,
+      transform: shouldReduceMotion ? "translateY(0px)" : "translateY(16px)",
+    },
+    visible: {
+      opacity: 1,
+      transform: "translateY(0px)",
+      transition: {
+        duration: 0.45,
+        ease: strongEase,
+        delay: shouldReduceMotion ? 0 : 0.08,
+      },
+    },
+  }
 
   return (
     <section>
       <div className="mx-auto flex w-full max-w-6xl min-w-0 flex-col px-6 py-16">
-        <header className="mb-10 text-center">
+        <motion.header
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={headerVariants}
+          className="mb-10 text-center"
+        >
           <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
             Pricing
           </h2>
@@ -72,8 +113,14 @@ export function PricingCompare() {
             Choose a monthly sponsorship tier that fits your budget. Each tier
             lists exactly what you get.
           </p>
-        </header>
-        <div className="max-w-full min-w-0 overflow-x-auto rounded-2xl border border-border">
+        </motion.header>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={tableVariants}
+          className="max-w-full min-w-0 overflow-x-auto rounded-2xl border border-border"
+        >
           <div
             role="table"
             aria-label="Pricing"
@@ -130,7 +177,7 @@ export function PricingCompare() {
                 <div
                   role="rowheader"
                   className={cn(
-                    "sticky left-0 z-10 flex w-52 shrink-0 flex-col justify-center border-r border-border bg-background p-4 text-left font-normal whitespace-nowrap text-xs sm:text-sm",
+                    "sticky left-0 z-10 flex w-52 shrink-0 flex-col justify-center border-r border-border bg-background p-4 text-left text-xs font-normal whitespace-nowrap sm:text-sm",
                     rowIndex < rows.length - 1 && "border-b"
                   )}
                 >
@@ -175,7 +222,7 @@ export function PricingCompare() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
