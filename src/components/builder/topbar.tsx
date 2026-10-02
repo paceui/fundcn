@@ -1,4 +1,5 @@
 import { useEffect, useState, lazy, Suspense } from "react"
+import { Link } from "@tanstack/react-router"
 import { ChevronDownIcon } from "lucide-react"
 import { MorphIcon } from "morphicons/react"
 import { Moon, Sun } from "lucide"
@@ -26,8 +27,8 @@ function ThemeGeneratorSkeleton() {
   return (
     <Button
       variant="outline"
-      size="sm"
-      className="w-36 justify-between pr-2 pl-2.5 shadow-none"
+      size="default"
+      className="w-36 justify-between rounded-md pr-2 pl-2.5 text-sm shadow-none"
       disabled
     >
       <span className="flex items-center gap-2">
@@ -81,16 +82,24 @@ export function BuilderTopbar() {
           : "border-transparent bg-transparent"
       )}
     >
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
+      <div className="mx-auto flex h-16 w-full items-center justify-between px-6">
         <div className="flex items-center gap-2">
-          <a href="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <img
               src="/logo/icon-192.png"
               alt=""
               className="size-7 rounded-md"
             />
             <span className="text-xl font-bold text-foreground">Fundcn</span>
-          </a>
+          </Link>
+          <nav className="ml-4 flex items-center gap-1">
+            <Link
+              to="/components"
+              className="rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Components
+            </Link>
+          </nav>
         </div>
         <div className="flex items-center gap-2">
           <Suspense fallback={<ThemeGeneratorSkeleton />}>
@@ -101,7 +110,8 @@ export function BuilderTopbar() {
               render={
                 <Button
                   variant="outline"
-                  size="icon-sm"
+                  size="icon"
+                  className="rounded-md shadow-none"
                   onClick={() =>
                     setTheme(resolvedTheme === "dark" ? "light" : "dark")
                   }

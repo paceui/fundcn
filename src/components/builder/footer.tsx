@@ -18,7 +18,7 @@ const SOCIALS = [
 
 export function BuilderFooter() {
   return (
-    <footer className="border-t border-dashed border-border">
+    <footer className="w-full">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-6 py-8">
         <p className="text-sm">
           <span className="font-medium text-foreground">Fundcn</span>{" "}

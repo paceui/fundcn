@@ -2,7 +2,7 @@ import { type RegistryItem } from "shadcn/schema"
 
 export const registryMeta = {
   name: "fundcn",
-  homepage: "https://fundcn.com",
+  homepage: "https://fundcn.paceui.com",
 }
 
 export const registry: RegistryItem[] = [

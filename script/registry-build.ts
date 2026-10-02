@@ -1,13 +1,12 @@
-import { mkdir, readFile, rm, writeFile } from "node:fs/promises"
-import { type RegistryItem } from "shadcn/schema"
+import * as path from "node:path"
+import { rm } from "node:fs/promises"
 
-import { registry, registryMeta } from "./registry.ts"
+import { generateRegistry } from "./generate-registry/core"
+import type { GeneratedRegistry } from "./generate-registry/types"
+import { registry, registryMeta } from "./registry"
 
-const ROOT = new URL("../", import.meta.url)
-const OUT_DIR = new URL("public/r/", ROOT)
-
-const ITEM_SCHEMA = "https://ui.shadcn.com/schema/registry-item.json"
-const INDEX_SCHEMA = "https://ui.shadcn.com/schema/registry.json"
+const ROOT = path.resolve(import.meta.dirname, "..")
+const OUT_DIR = path.join(ROOT, "public/r")
 
 function startCase(name: string) {
   return name
@@ -16,90 +15,31 @@ function startCase(name: string) {
     .join(" ")
 }
 
-/** `@components/...` install target for a repo-relative source path. */
-function installTarget(sourcePath: string) {
-  return "@" + sourcePath.replace(/^src\//, "")
-}
-
-async function buildItem(item: RegistryItem) {
-  const contents = await Promise.all(
-    (item.files || []).map(async (file: any) => {
-      try {
-        const path = typeof file === "string" ? file : file.path
-        const type = typeof file === "string" ? "registry:component" : file.type
-        return {
-          path,
-          type,
-          content: await readFile(new URL(path, ROOT), "utf8"),
-        }
-      } catch {
-        throw new Error(`Registry "${item.name}": file not found: ${file.path}`)
-      }
-    })
-  )
-
-  return {
-    $schema: ITEM_SCHEMA,
-    name: item.name,
-    type: item.type,
-    title: item.title ?? startCase(item.name),
-    description: item.description,
-    ...(item.dependencies ? { dependencies: item.dependencies } : {}),
-    ...(item.registryDependencies
-      ? { registryDependencies: item.registryDependencies }
-      : {}),
-    files: contents.map(
-      ({
-        path,
-        content,
-        type,
-      }: {
-        path: string
-        content: string
-        type: string
-      }) => ({
-        path,
-        content,
-        type,
-        target: installTarget(path),
-      })
-    ),
-  } as RegistryItem
-}
-
 async function main() {
   // Drop stale output so removed items don't linger.
   await rm(OUT_DIR, { recursive: true, force: true })
-  await mkdir(OUT_DIR, { recursive: true })
 
-  const built = await Promise.all(registry.map(buildItem))
-
-  await Promise.all(
-    built.map((item: RegistryItem) =>
-      writeFile(
-        new URL(`${item.name}.json`, OUT_DIR),
-        JSON.stringify(item, null, 2) + "\n"
-      )
-    )
-  )
-
-  const index = {
-    $schema: INDEX_SCHEMA,
-    ...registryMeta,
-    items: built.map(({ files, ...meta }: RegistryItem) => ({
-      ...meta,
-      files: (files || []).map(({ content, ...file }: any) => file),
+  const generatedRegistries: GeneratedRegistry[] = registry.map((item) => ({
+    name: item.name,
+    type: item.type ?? "registry:block",
+    title: item.title ?? startCase(item.name),
+    description: item.description,
+    dependencies: item.dependencies as string[] | undefined,
+    registryDependencies: item.registryDependencies as string[] | undefined,
+    files: (item.files || []).map((file: any) => ({
+      path: typeof file === "string" ? file : file.path,
+      type:
+        typeof file === "string" ? ("registry:component" as const) : file.type,
     })),
-  }
-  await writeFile(
-    new URL("registry.json", OUT_DIR),
-    JSON.stringify(index, null, 2) + "\n"
-  )
+  }))
 
-  for (const item of built) {
-    console.log(`r/${item.name}.json (${item.files?.length ?? 0} files)`)
+  generateRegistry(OUT_DIR, generatedRegistries)
+
+  console.log(`\n✅ Registry built: ${generatedRegistries.length} items`)
+  console.log(`   ${registryMeta.name} → public/r/`)
+  for (const item of generatedRegistries) {
+    console.log(`   r/${item.name}.json`)
   }
-  console.log(`r/registry.json (${built.length} items)`)
 }
 
 await main()
